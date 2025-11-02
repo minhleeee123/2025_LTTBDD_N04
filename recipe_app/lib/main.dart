@@ -3,6 +3,7 @@ import 'screens/home_screen.dart';
 import 'screens/favorites_screen.dart';
 import 'screens/create_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/about_screen.dart';
 
 void main() {
   runApp(const RecipeBookApp());
@@ -39,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
     const FavoritesScreen(),
     const CreateScreen(),
     const SettingsScreen(),
+    const AboutScreen(),
   ];
 
   @override
@@ -65,6 +67,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'About',
           ),
         ],
       ),
