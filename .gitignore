@@ -1,0 +1,26 @@
+﻿# Flutter/Dart project in recipe_app/
+recipe_app/.dart_tool/
+recipe_app/.packages
+recipe_app/.flutter-plugins
+recipe_app/.flutter-plugins-dependencies
+recipe_app/build/
+recipe_app/coverage/
+recipe_app/android/local.properties
+recipe_app/android/.gradle/
+recipe_app/ios/Pods/
+recipe_app/.pub-cache/
+recipe_app/.pub/
+
+# IDE files (toàn repo)
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+**/build/
