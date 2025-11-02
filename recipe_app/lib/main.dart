@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/favorites_screen.dart';
+import 'screens/settings_screen.dart';
 
 void main() {
   runApp(const RecipeBookApp());
@@ -35,6 +36,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const FavoritesScreen(),
+    const SettingsScreen(),
   ];
 
   @override
@@ -53,6 +55,10 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
       ),
