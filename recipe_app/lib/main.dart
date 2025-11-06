@@ -55,11 +55,13 @@ class MobileFrame extends StatefulWidget {
 class _MobileFrameState extends State<MobileFrame> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
+  List<Widget> get _screens => [
     const HomeScreen(),
     const FavoritesScreen(),
     const CreateScreen(),
-    const SettingsScreen(),
+    SettingsScreen(onLanguageChanged: () {
+      setState(() {}); // Rebuild toàn bộ MobileFrame khi ngôn ngữ thay đổi
+    }),
     const AboutScreen(),
   ];
 

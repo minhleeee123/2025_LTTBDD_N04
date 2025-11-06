@@ -3,7 +3,9 @@ import '../models/app_state.dart';
 import '../utils/translations.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final VoidCallback? onLanguageChanged;
+  
+  const SettingsScreen({super.key, this.onLanguageChanged});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -69,6 +71,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           setState(() {
             AppState.language = languageCode;
           });
+          // Thông báo cho parent widget rebuild để cập nhật ngôn ngữ
+          if (widget.onLanguageChanged != null) {
+            widget.onLanguageChanged!();
+          }
         }
       },
       child: Container(
