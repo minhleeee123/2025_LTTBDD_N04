@@ -1,185 +1,581 @@
-# RECIPE BOOK APP - BÁO CÁO PHÂN TÍCH VÀ THIẾT KẾ
+<div align="center">
+
+# Recipe Book App
+
+### Cross-Platform Mobile Recipe Management Application
+
+<p align="center">
+  <strong>Flutter Framework • Multi-language Support • Material Design 3 • Responsive UI • Local Storage</strong>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-3.9+-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Dart-3.9+-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
+  <img src="https://img.shields.io/badge/Material-Design_3-757575?style=for-the-badge&logo=material-design&logoColor=white" alt="Material Design" />
+  <img src="https://img.shields.io/badge/Platform-Android%20%7C%20iOS-lightgrey?style=for-the-badge" alt="Platform" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Production-success?style=flat-square" alt="Status" />
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License" />
+  <img src="https://img.shields.io/badge/Version-1.0.0-orange?style=flat-square" alt="Version" />
+</p>
 
 ---
 
-## PHẦN 1: SRS (SOFTWARE REQUIREMENTS SPECIFICATION)
+</div>
 
-### 1.1. Tổng quan ứng dụng
+## Table of Contents
 
-**Recipe Book** là một ứng dụng di động được phát triển bằng Flutter, giúp người dùng khám phá, tạo mới và quản lý các công thức nấu ăn yêu thích. Ứng dụng hỗ trợ đa ngôn ngữ (Tiếng Việt và Tiếng Anh) với giao diện hiện đại và thân thiện.
-
-### 1.2. Các chức năng chính
-
-#### 1.2.1. Chức năng Trang chủ (Home Screen)
-- **Mục đích**: Hiển thị danh sách tất cả công thức nấu ăn
-- **Tính năng**:
-  - Xem danh sách công thức dạng grid responsive
-  - Tìm kiếm công thức theo tên và mô tả
-  - Lọc theo danh mục (Tất cả, Món chính, Khai vị, Ăn vặt)
-  - Thu gọn/mở rộng phần header tìm kiếm
-  - Thêm/xóa công thức yêu thích
-  - Xem chi tiết công thức
-
-#### 1.2.2. Chức năng Yêu thích (Favorites Screen)
-- **Mục đích**: Quản lý danh sách công thức yêu thích
-- **Tính năng**:
-  - Hiển thị chỉ các công thức đã được đánh dấu yêu thích
-  - Tìm kiếm và lọc trong danh sách yêu thích
-  - Xóa khỏi danh sách yêu thích
-  - Badge hiển thị số lượng công thức yêu thích trên navigation bar
-
-#### 1.2.3. Chức năng Tạo công thức (Create Screen)
-- **Mục đích**: Cho phép người dùng tạo công thức mới
-- **Tính năng**:
-  - Nhập thông tin cơ bản: tên (2 ngôn ngữ), mô tả, hình ảnh
-  - Chọn thời gian nấu, số người ăn, độ khó, danh mục
-  - Thêm/xóa nguyên liệu động (hỗ trợ 2 ngôn ngữ)
-  - Thêm/xóa các bước thực hiện (hỗ trợ 2 ngôn ngữ)
-  - Validation form đầy đủ
-  - Lưu công thức vào danh sách chung
-
-#### 1.2.4. Chức năng Chi tiết công thức (Recipe Detail Screen)
-- **Mục đích**: Hiển thị thông tin chi tiết của một công thức
-- **Tính năng**:
-  - Hiển thị hình ảnh full-screen với SliverAppBar
-  - Thông tin chi tiết: thời gian, số người, độ khó
-  - Danh sách nguyên liệu với bullet points
-  - Các bước thực hiện với số thứ tự
-  - Nút yêu thích floating trên hình ảnh
-
-#### 1.2.5. Chức năng Cài đặt (Settings Screen)
-- **Mục đích**: Tùy chỉnh cài đặt ứng dụng
-- **Tính năng**:
-  - Chuyển đổi ngôn ngữ (Tiếng Việt/Tiếng Anh)
-  - UI cập nhật real-time khi thay đổi ngôn ngữ
-
-#### 1.2.6. Chức năng Giới thiệu (About Screen)
-- **Mục đích**: Thông tin về ứng dụng và nhà phát triển
-- **Tính năng**:
-  - Thông tin ứng dụng và các tính năng
-  - Hồ sơ nhà phát triển với avatar
-  - Danh sách kỹ năng dạng chip
-  - Các dự án đã thực hiện
-  - Liên kết đến email, GitHub, Facebook
-
-### 1.3. Luồng hoạt động chính
-
-```mermaid
-graph TD
-    A[Khởi động App] --> B[Trang chủ]
-    B --> C{Chọn chức năng}
-    C -->|Xem chi tiết| D[Recipe Detail Screen]
-    C -->|Tìm kiếm/Lọc| E[Kết quả tìm kiếm]
-    C -->|Yêu thích| F[Favorites Screen]
-    C -->|Tạo mới| G[Create Screen]
-    C -->|Cài đặt| H[Settings Screen]
-    C -->|Giới thiệu| I[About Screen]
-    
-    D --> J{Thao tác}
-    J -->|Yêu thích| K[Cập nhật trạng thái]
-    J -->|Quay lại| B
-    
-    F --> L{Thao tác yêu thích}
-    L -->|Xem chi tiết| D
-    L -->|Bỏ yêu thích| M[Cập nhật danh sách]
-    
-    G --> N[Nhập thông tin]
-    N --> O[Validation]
-    O -->|Thành công| P[Lưu công thức]
-    O -->|Lỗi| Q[Hiển thị lỗi]
-    P --> B
-    
-    H --> R[Chọn ngôn ngữ]
-    R --> S[Cập nhật UI]
-    
-    K --> B
-    M --> F
-    Q --> N
-    S --> B
-```
-
-### 1.4. Yêu cầu phi chức năng
-
-#### 1.4.1. Hiệu năng
-- Thời gian khởi động: < 2 giây
-- Thời gian chuyển màn hình: < 500ms
-- Smooth scrolling và animation
-
-#### 1.4.2. Giao diện người dùng
-- Responsive design cho mọi kích thước màn hình
-- Hỗ trợ orientation landscape/portrait
-- Material Design 3 guidelines
-- Animation mượt mà với flutter_animate
-
-#### 1.4.3. Khả năng sử dụng
-- Hỗ trợ đa ngôn ngữ hoàn chỉnh
-- Giao diện trực quan, dễ sử dụng
-- Feedback người dùng qua SnackBar
-- Error handling và validation
-
-#### 1.4.4. Khả năng mở rộng
-- Kiến trúc modular dễ bảo trì
-- State management đơn giản với StatefulWidget
-- Cấu trúc thư mục rõ ràng
+- [Quick Start](#quick-start)
+- [Overview](#overview)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Screens & Navigation](#screens--navigation)
+- [State Management](#state-management)
+- [Internationalization](#internationalization)
+- [API Reference](#api-reference)
+- [Build & Deployment](#build--deployment)
 
 ---
 
-## PHẦN 2: SAD (SOFTWARE ARCHITECTURE DESIGN)
+## Quick Start
 
-### 2.1. Kiến trúc tổng quan
+Get the app running on your device in 5 minutes:
 
-Ứng dụng sử dụng kiến trúc **Layer Architecture** đơn giản với Flutter, bao gồm:
+```bash
+# 1. Clone the repository
+git clone https://github.com/minhleeee123/2025_LTTBDD_N04.git
+cd 2025_LTTBDD_N04/recipe_app
 
-```
-┌─────────────────────────────────┐
-│        PRESENTATION LAYER        │
-│    (Screens & UI Components)     │
-├─────────────────────────────────┤
-│         BUSINESS LAYER          │
-│     (Models & State Logic)      │
-├─────────────────────────────────┤
-│          DATA LAYER             │
-│    (Static Data & Utilities)    │
-└─────────────────────────────────┘
-```
+# 2. Install Flutter dependencies
+flutter pub get
 
-### 2.2. Cấu trúc thư mục
+# 3. Check device connection
+flutter devices
 
-```
-lib/
-├── main.dart                 # Entry point & Material App
-├── models/                   # Data models & business logic
-│   ├── recipe.dart          # Recipe model & sample data
-│   └── app_state.dart       # Global state management
-├── screens/                  # UI screens
-│   ├── home_screen.dart     # Trang chủ
-│   ├── favorites_screen.dart # Trang yêu thích
-│   ├── create_screen.dart   # Tạo công thức
-│   ├── recipe_detail_screen.dart # Chi tiết công thức
-│   ├── settings_screen.dart # Cài đặt
-│   └── about_screen.dart    # Giới thiệu
-└── utils/                   # Utilities & helpers
-    └── translations.dart    # Đa ngôn ngữ
+# 4. Run the app
+flutter run
+
+# Or run on specific platform:
+flutter run -d android
+flutter run -d ios
+flutter run -d chrome  # Web browser
 ```
 
-### 2.3. Thiết kế chi tiết các lớp
+**Prerequisites**: Flutter SDK 3.9+, Android Studio/Xcode
 
-#### 2.3.1. Model Layer
+---
 
-##### Recipe Model
+## Overview
+
+Recipe Book is a modern mobile application built with Flutter that helps users discover, create, and manage their favorite cooking recipes. The app supports bilingual interface (Vietnamese and English) with an intuitive, Material Design 3-compliant UI.
+
+### Key Highlights
+
+**Cross-Platform**
+- Single codebase for Android and iOS
+- Consistent UI/UX across platforms
+- Native performance
+
+**Bilingual Support**
+- Vietnamese and English interface
+- Real-time language switching
+- Localized recipe content
+
+**User-Friendly**
+- Intuitive navigation
+- Smooth animations
+- Responsive design for all screen sizes
+
+**Feature-Rich**
+- Recipe browsing and search
+- Favorites management
+- Custom recipe creation
+- Detailed recipe view
+- Category filtering
+
+---
+
+## Features
+
+### Core Functionalities
+
+#### 1. Home Screen - Recipe Discovery
+- **Recipe Grid**: Responsive grid layout with recipe cards
+- **Search**: Full-text search by recipe name and description
+- **Category Filter**: Filter by All, Main Courses, Appetizers, Snacks
+- **Expandable Header**: Collapsible search and filter section
+- **Favorite Toggle**: Quick add/remove from favorites
+- **Recipe Cards**: Display image, name, cooking time, and difficulty
+
+#### 2. Favorites Screen - Personal Collection
+- **Favorites List**: View all favorited recipes
+- **Search & Filter**: Find specific favorites by name or category
+- **Remove Favorites**: Quick removal from favorites list
+- **Badge Counter**: Display favorite count on navigation bar
+- **Empty State**: Helpful message when no favorites exist
+
+#### 3. Create Screen - Recipe Builder
+- **Bilingual Input**: Enter recipe name in Vietnamese and English
+- **Rich Metadata**: Description, cooking time, servings, difficulty, category
+- **Image URL**: Add recipe image link
+- **Dynamic Ingredients**: Add/remove ingredients with bilingual support
+- **Step-by-Step Instructions**: Add/remove cooking steps
+- **Form Validation**: Complete validation before saving
+- **Save Recipe**: Add to global recipe list
+
+#### 4. Recipe Detail Screen - Detailed View
+- **Hero Image**: Full-width image with SliverAppBar
+- **Recipe Info**: Cooking time, servings, difficulty level
+- **Ingredients List**: Bullet-pointed ingredient list
+- **Cooking Steps**: Numbered step-by-step instructions
+- **Floating Favorite**: Heart button overlay on image
+- **Scrollable Content**: Smooth scrolling detail view
+
+#### 5. Settings Screen - Customization
+- **Language Switch**: Toggle between Vietnamese and English
+- **Real-time Update**: UI updates immediately on language change
+- **Persistent Settings**: Language preference saved locally
+
+#### 6. About Screen - Developer Info
+- **App Information**: Features and capabilities overview
+- **Developer Profile**: Avatar and personal information
+- **Skills Showcase**: Technology stack displayed as chips
+- **Projects**: Portfolio of completed projects
+- **Contact Links**: Email, GitHub, Facebook integration
+
+---
+
+## Architecture
+
+### System Architecture
+
+<div align="center">
+
+```
+┌────────────────────────────────────────────────────────────┐
+│                    PRESENTATION LAYER                      │
+│              (Screens & UI Components)                     │
+│                                                            │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
+│  │   Home   │  │Favorites │  │  Create  │  │  Detail  │  │
+│  │  Screen  │  │  Screen  │  │  Screen  │  │  Screen  │  │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘  │
+│       │             │              │             │        │
+│  ┌────┴─────┐  ┌────┴─────┐                              │
+│  │Settings  │  │  About   │                              │
+│  │ Screen   │  │  Screen  │                              │
+│  └──────────┘  └──────────┘                              │
+└────────────────────┬───────────────────────────────────────┘
+                     │
+                     │ State Updates
+                     ▼
+┌────────────────────────────────────────────────────────────┐
+│                    BUSINESS LAYER                          │
+│                (Models & State Logic)                      │
+│                                                            │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │                  AppState (Global)                   │  │
+│  │  • language: String                                  │  │
+│  │  • favoriteRecipes: List<Recipe>                     │  │
+│  │  • allRecipes: List<Recipe>                          │  │
+│  │                                                      │  │
+│  │  Methods:                                            │  │
+│  │  • isFavorite(Recipe)                                │  │
+│  │  • toggleFavorite(Recipe)                            │  │
+│  │  • addRecipe(Recipe)                                 │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                            │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │                    Recipe Model                      │  │
+│  │  • id, nameVi, nameEn                                │  │
+│  │  • descriptionVi, descriptionEn                      │  │
+│  │  • imageUrl, duration, servings                      │  │
+│  │  • difficulty, category                              │  │
+│  │  • ingredientsVi/En, stepsVi/En                      │  │
+│  │                                                      │  │
+│  │  Methods:                                            │  │
+│  │  • getName(language)                                 │  │
+│  │  • getDescription(language)                          │  │
+│  │  • getIngredients(language)                          │  │
+│  │  • getSteps(language)                                │  │
+│  └──────────────────────────────────────────────────────┘  │
+└────────────────────┬───────────────────────────────────────┘
+                     │
+                     │ Data Access
+                     ▼
+┌────────────────────────────────────────────────────────────┐
+│                      DATA LAYER                            │
+│               (Static Data & Utilities)                    │
+│                                                            │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │              Sample Recipe Data                      │  │
+│  │  • sampleRecipes: List<Recipe>                       │  │
+│  │  • Pre-loaded recipes for demonstration              │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                            │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │              Translation Utilities                   │  │
+│  │  • translate(key, language)                          │  │
+│  │  • Translation maps for UI text                      │  │
+│  └──────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────┘
+```
+
+</div>
+
+### Architecture Pattern
+
+The app uses a simplified **Layer Architecture** with three main layers:
+
+1. **Presentation Layer**: UI screens and widgets
+2. **Business Layer**: Models and state management
+3. **Data Layer**: Static data and utilities
+
+**State Management**: StatefulWidget with setState() for simplicity
+**Navigation**: Named routes with Navigator 2.0
+**Data Persistence**: In-memory storage (can be extended with SharedPreferences)
+
+---
+
+## Technology Stack
+
+### Framework & Language
+
+| Component | Technology | Version | Purpose |
+|-----------|-----------|---------|---------|
+| **Framework** | Flutter | 3.9+ | Cross-platform UI framework |
+| **Language** | Dart | 3.9+ | Programming language |
+| **Design** | Material Design 3 | Latest | UI design system |
+
+### Core Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| **flutter_animate** | 4.5.0 | Smooth animations and transitions |
+| **url_launcher** | 6.3.0 | Launch external URLs (email, web) |
+| **cupertino_icons** | 1.0.8 | iOS-style icons |
+
+### Development Tools
+
+- **Flutter DevTools**: Debugging and profiling
+- **Dart Analysis**: Static code analysis
+- **Hot Reload**: Instant code updates during development
+
+---
+
+## Installation
+
+### Prerequisites
+
+#### Install Flutter SDK
+
+**Windows**:
+```bash
+# Download Flutter SDK from https://flutter.dev
+# Extract to C:\src\flutter
+# Add to PATH: C:\src\flutter\bin
+```
+
+**macOS/Linux**:
+```bash
+# Download and extract Flutter
+git clone https://github.com/flutter/flutter.git -b stable
+export PATH="$PATH:`pwd`/flutter/bin"
+```
+
+#### Install Platform-Specific Tools
+
+**Android Development**:
+- Install Android Studio
+- Install Android SDK
+- Create Android Emulator
+
+**iOS Development** (macOS only):
+- Install Xcode
+- Install CocoaPods: `sudo gem install cocoapods`
+
+#### Verify Installation
+
+```bash
+flutter doctor
+```
+
+Ensure all checkmarks are green.
+
+### Project Setup
+
+#### 1. Clone Repository
+
+```bash
+git clone https://github.com/minhleeee123/2025_LTTBDD_N04.git
+cd 2025_LTTBDD_N04/recipe_app
+```
+
+#### 2. Install Dependencies
+
+```bash
+flutter pub get
+```
+
+#### 3. Run on Device
+
+**Android**:
+```bash
+# Connect Android device or start emulator
+flutter run -d android
+```
+
+**iOS** (macOS only):
+```bash
+# Connect iOS device or start simulator
+cd ios
+pod install
+cd ..
+flutter run -d ios
+```
+
+**Web Browser**:
+```bash
+flutter run -d chrome
+```
+
+#### 4. Build for Production
+
+**Android APK**:
+```bash
+flutter build apk --release
+# Output: build/app/outputs/flutter-apk/app-release.apk
+```
+
+**iOS IPA** (macOS only):
+```bash
+flutter build ios --release
+# Output: build/ios/iphoneos/Runner.app
+```
+
+---
+
+## Project Structure
+
+```
+recipe_app/
+├── lib/
+│   ├── main.dart                      # Entry point & MaterialApp
+│   ├── models/                        # Data models
+│   │   ├── recipe.dart                # Recipe model & sample data
+│   │   └── app_state.dart             # Global state management
+│   ├── screens/                       # UI screens
+│   │   ├── home_screen.dart           # Home screen
+│   │   ├── favorites_screen.dart      # Favorites screen
+│   │   ├── create_screen.dart         # Create recipe screen
+│   │   ├── recipe_detail_screen.dart  # Recipe detail screen
+│   │   ├── settings_screen.dart       # Settings screen
+│   │   └── about_screen.dart          # About screen
+│   └── utils/                         # Utilities
+│       └── translations.dart          # i18n translations
+├── android/                           # Android-specific code
+├── ios/                               # iOS-specific code
+├── web/                               # Web-specific code
+├── test/                              # Unit tests
+├── pubspec.yaml                       # Dependencies
+└── README.md                          # This file
+```
+
+---
+
+## Screens & Navigation
+
+### Navigation Flow
+
+```
+Main App
+│
+├─ Bottom Navigation Bar
+│  ├─ [0] Home Screen ────────┬─> Recipe Detail Screen
+│  │                          │
+│  ├─ [1] Favorites Screen ───┘
+│  │
+│  ├─ [2] Create Screen
+│  │
+│  ├─ [3] Settings Screen
+│  │
+│  └─ [4] About Screen
+```
+
+### Screen Details
+
+#### Home Screen
+- **Route**: `/`
+- **Widget**: `HomeScreen`
+- **Features**: Recipe grid, search, category filter
+- **Navigation**: Tap recipe card → Recipe Detail
+
+#### Favorites Screen
+- **Route**: `/favorites`
+- **Widget**: `FavoritesScreen`
+- **Features**: Favorite recipes list, search, filter
+- **Badge**: Shows favorite count
+
+#### Create Screen
+- **Route**: `/create`
+- **Widget**: `CreateScreen`
+- **Features**: Form inputs, validation, save recipe
+- **Success**: Returns to Home Screen
+
+#### Recipe Detail Screen
+- **Route**: `/detail`
+- **Widget**: `RecipeDetailScreen`
+- **Parameters**: `Recipe` object
+- **Features**: Full recipe information, favorite toggle
+
+#### Settings Screen
+- **Route**: `/settings`
+- **Widget**: `SettingsScreen`
+- **Features**: Language switcher
+- **Effect**: Global language update
+
+#### About Screen
+- **Route**: `/about`
+- **Widget**: `AboutScreen`
+- **Features**: Developer info, contact links
+
+---
+
+## State Management
+
+### Global State (AppState)
+
+```dart
+class AppState {
+  // Current language ('vi' or 'en')
+  static String language = 'vi';
+  
+  // List of favorite recipes
+  static List<Recipe> favoriteRecipes = [];
+  
+  // All available recipes
+  static List<Recipe> allRecipes = sampleRecipes;
+  
+  // Check if recipe is favorited
+  static bool isFavorite(Recipe recipe) {
+    return favoriteRecipes.any((r) => r.id == recipe.id);
+  }
+  
+  // Toggle favorite status
+  static void toggleFavorite(Recipe recipe) {
+    if (isFavorite(recipe)) {
+      favoriteRecipes.removeWhere((r) => r.id == recipe.id);
+    } else {
+      favoriteRecipes.add(recipe);
+    }
+  }
+  
+  // Add new recipe
+  static void addRecipe(Recipe recipe) {
+    allRecipes.add(recipe);
+  }
+}
+```
+
+### Local State
+
+Each screen uses `StatefulWidget` with `setState()` for local UI state:
+
+```dart
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String searchQuery = '';
+  String selectedCategory = 'all';
+  
+  @override
+  Widget build(BuildContext context) {
+    // UI implementation
+  }
+}
+```
+
+---
+
+## Internationalization
+
+### Translation System
+
+The app uses a custom translation utility:
+
+```dart
+// utils/translations.dart
+String translate(String key, String language) {
+  final translations = {
+    'app_title': {
+      'vi': 'Sổ Công Thức',
+      'en': 'Recipe Book'
+    },
+    'search': {
+      'vi': 'Tìm kiếm',
+      'en': 'Search'
+    },
+    // ... more translations
+  };
+  
+  return translations[key]?[language] ?? key;
+}
+```
+
+### Supported Languages
+
+- **Vietnamese (vi)**: Default language
+- **English (en)**: Secondary language
+
+### Language Switching
+
+```dart
+// In Settings Screen
+ElevatedButton(
+  onPressed: () {
+    setState(() {
+      AppState.language = newLanguage;
+    });
+    // Notify all screens to rebuild
+  },
+  child: Text('Switch Language')
+)
+```
+
+All screens automatically update when language changes.
+
+---
+
+## API Reference
+
+### Recipe Model
+
 ```dart
 class Recipe {
   final String id;
-  final String nameVi, nameEn;
-  final String descriptionVi, descriptionEn;
+  final String nameVi;
+  final String nameEn;
+  final String descriptionVi;
+  final String descriptionEn;
   final String imageUrl;
-  final int duration, servings;
-  final String difficulty; // 'easy', 'medium', 'hard'
-  final String category;   // 'main', 'appetizer', 'snack'
-  final List<String> ingredientsVi, ingredientsEn;
-  final List<String> stepsVi, stepsEn;
+  final int duration;           // in minutes
+  final int servings;
+  final String difficulty;      // 'easy', 'medium', 'hard'
+  final String category;        // 'main', 'appetizer', 'snack'
+  final List<String> ingredientsVi;
+  final List<String> ingredientsEn;
+  final List<String> stepsVi;
+  final List<String> stepsEn;
   
-  // Helper methods cho đa ngôn ngữ
+  // Getters for current language
   String getName(String language);
   String getDescription(String language);
   List<String> getIngredients(String language);
@@ -187,208 +583,218 @@ class Recipe {
 }
 ```
 
-##### AppState (Global State)
+### Creating New Recipe
+
 ```dart
-class AppState {
-  static String language = 'vi';
-  static List<Recipe> favoriteRecipes = [];
-  static List<Recipe> allRecipes = [];
-  
-  // Business logic methods
-  static bool isFavorite(Recipe recipe);
-  static void toggleFavorite(Recipe recipe);
-  static void addRecipe(Recipe recipe);
-}
-```
-
-#### 2.3.2. Presentation Layer
-
-##### Main App Structure
-```dart
-RecipeBookApp (MaterialApp)
-└── MobileFrame (StatefulWidget)
-    ├── BottomNavigationBar (5 tabs)
-    └── Screen Stack:
-        ├── HomeScreen
-        ├── FavoritesScreen  
-        ├── CreateScreen
-        ├── SettingsScreen
-        └── AboutScreen
-```
-
-##### Screen Components
-
-**HomeScreen & FavoritesScreen**:
-- Shared UI patterns: Search bar, Category filter, Recipe grid
-- Responsive GridView với orientation detection
-- Collapsible header với AnimatedContainer
-- Recipe cards với thông tin đầy đủ
-
-**CreateScreen**:
-- Form-based UI với validation
-- Dynamic lists cho ingredients/steps
-- Sectioned layout với containers
-- Multi-language input support
-
-**RecipeDetailScreen**:
-- SliverAppBar với parallax image
-- Custom ScrollView layout
-- Ingredient list với custom bullets
-- Numbered instruction steps
-
-### 2.4. State Management
-
-#### 2.4.1. Local State
-- Sử dụng StatefulWidget với setState()
-- Quản lý UI state: search queries, form data, selections
-
-#### 2.4.2. Global State  
-- AppState class với static members
-- Simple state management phù hợp với app scope nhỏ
-- Real-time UI updates khi state thay đổi
-
-#### 2.4.3. State Flow
-```mermaid
-graph LR
-    A[User Action] --> B[setState()]
-    B --> C[Widget Rebuild]
-    C --> D[UI Update]
-    
-    E[Global Action] --> F[AppState Update]
-    F --> G[Dependent Widgets Rebuild]
-    G --> H[UI Sync]
-```
-
-### 2.5. Data Management
-
-#### 2.5.1. Static Data
-- Sample recipes trong `recipe.dart`
-- Translation strings trong `translations.dart`
-- Hardcoded data phù hợp cho prototype/demo
-
-#### 2.5.2. Runtime Data
-- User-created recipes được lưu trong memory
-- Favorite status được track trong AppState
-- No persistence - data reset mỗi lần restart app
-
-### 2.6. UI/UX Design Patterns
-
-#### 2.6.1. Material Design 3
-- Sử dụng Material 3 theming
-- Consistent color scheme (black/white/gray)
-- Proper elevation và shadows
-
-#### 2.6.2. Responsive Design
-```dart
-// Orientation-based layout
-final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-final crossAxisCount = isLandscape ? 2 : 1;
-```
-
-#### 2.6.3. Animation & Transitions
-- flutter_animate cho micro-interactions
-- AnimatedContainer cho smooth state changes
-- Hero transitions (implicit với Navigator)
-
-### 2.7. Internationalization (i18n)
-
-#### 2.7.1. Translation System
-```dart
-// Centralized translation map
-final Map<String, Map<String, String>> appStrings = {
-  'vi': { 'key': 'Giá trị tiếng Việt' },
-  'en': { 'key': 'English value' }
-};
-
-// Usage pattern
-Text(appStrings[AppState.language]!['key']!)
-```
-
-#### 2.7.2. Real-time Language Switching
-- Global language state trong AppState
-- Automatic UI refresh khi thay đổi ngôn ngữ
-- Complete app re-rendering với setState()
-
-### 2.8. Navigation Architecture
-
-#### 2.8.1. Bottom Tab Navigation
-```dart
-// Tab-based navigation structure
-BottomNavigationBar với 5 tabs:
-- Home (HomeScreen)
-- Favorites (FavoritesScreen) 
-- Create (CreateScreen)
-- Settings (SettingsScreen)
-- About (AboutScreen)
-```
-
-#### 2.8.2. Modal Navigation
-```dart
-// Push navigation cho detail screen
-Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => RecipeDetailScreen(recipe: recipe)
-  )
+final newRecipe = Recipe(
+  id: DateTime.now().toString(),
+  nameVi: 'Phở Bò',
+  nameEn: 'Beef Pho',
+  descriptionVi: 'Món phở truyền thống Việt Nam',
+  descriptionEn: 'Traditional Vietnamese beef noodle soup',
+  imageUrl: 'https://example.com/pho.jpg',
+  duration: 120,
+  servings: 4,
+  difficulty: 'medium',
+  category: 'main',
+  ingredientsVi: ['500g thịt bò', '200g bánh phở'],
+  ingredientsEn: ['500g beef', '200g rice noodles'],
+  stepsVi: ['Luộc xương', 'Thái thịt'],
+  stepsEn: ['Boil bones', 'Slice meat']
 );
-```
 
-### 2.9. Performance Considerations
-
-#### 2.9.1. Efficient Rendering
-- ListView.builder cho dynamic lists
-- GridView.builder cho recipe grids
-- Image caching với Network.image
-
-#### 2.9.2. Memory Management
-- Proper TextEditingController disposal
-- Widget tree optimization
-- Minimal state retention
-
-### 2.10. Error Handling & Validation
-
-#### 2.10.1. Form Validation
-```dart
-// User input validation
-if (fieldValue.isEmpty) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Error message'))
-  );
-}
-```
-
-#### 2.10.2. Image Loading
-```dart
-// Graceful image error handling
-Image.network(
-  imageUrl,
-  errorBuilder: (context, error, stackTrace) {
-    return Container(
-      color: Colors.grey.shade300,
-      child: Icon(Icons.restaurant)
-    );
-  }
-);
+AppState.addRecipe(newRecipe);
 ```
 
 ---
 
-## KẾT LUẬN
+## Build & Deployment
 
-Ứng dụng Recipe Book được thiết kế với kiến trúc đơn giản nhưng hiệu quả, phù hợp cho một ứng dụng demo/prototype. Các điểm mạnh:
+### Development Build
 
-### Ưu điểm:
-1. **Kiến trúc rõ ràng**: Phân tách rõ ràng giữa UI, business logic và data
-2. **Responsive design**: Hỗ trợ đa thiết bị và orientation
-3. **Internationalization**: Đa ngôn ngữ hoàn chỉnh
-4. **User Experience**: Giao diện hiện đại, animation mượt mà
-5. **Code organization**: Cấu trúc thư mục logic, dễ bảo trì
+```bash
+# Hot reload during development
+flutter run
 
-### Khả năng mở rộng:
-1. **Database integration**: Có thể tích hợp SQLite/Hive cho persistence
-2. **API integration**: Kết nối với backend cho sync data
-3. **State management**: Upgrade lên Provider/Bloc cho complex state
-4. **Features**: Thêm chức năng share, rating, user accounts
-5. **Platform**: Deploy lên iOS/Android stores
+# Debug mode with logging
+flutter run --debug
+```
 
-Ứng dụng thể hiện được các nguyên tắc thiết kế mobile app tốt với Flutter framework, suitable cho việc học tập và phát triển tiếp theo.
+### Production Build
+
+#### Android
+
+```bash
+# Build APK
+flutter build apk --release
+
+# Build App Bundle (recommended for Play Store)
+flutter build appbundle --release
+```
+
+**Output Locations**:
+- APK: `build/app/outputs/flutter-apk/app-release.apk`
+- AAB: `build/app/outputs/bundle/release/app-release.aab`
+
+#### iOS (macOS only)
+
+```bash
+# Build IPA
+flutter build ios --release
+
+# Or use Xcode:
+open ios/Runner.xcworkspace
+# Then: Product > Archive
+```
+
+#### Web
+
+```bash
+flutter build web --release
+```
+
+**Output**: `build/web/`
+
+### Deployment
+
+**Google Play Store**:
+1. Build app bundle: `flutter build appbundle`
+2. Upload to Play Console
+3. Complete store listing
+4. Submit for review
+
+**Apple App Store**:
+1. Build with Xcode
+2. Archive and upload to App Store Connect
+3. Complete app information
+4. Submit for review
+
+---
+
+## Testing
+
+### Run Tests
+
+```bash
+# Run all tests
+flutter test
+
+# Run specific test
+flutter test test/widget_test.dart
+
+# Run with coverage
+flutter test --coverage
+```
+
+### Widget Testing Example
+
+```dart
+testWidgets('Home screen displays recipes', (WidgetTester tester) async {
+  await tester.pumpWidget(MaterialApp(home: HomeScreen()));
+  
+  expect(find.text('Recipe Book'), findsOneWidget);
+  expect(find.byType(GridView), findsOneWidget);
+});
+```
+
+---
+
+## Performance Optimization
+
+### Tips for Better Performance
+
+1. **Lazy Loading**: Use `ListView.builder` instead of `ListView`
+2. **Image Optimization**: Cache network images
+3. **Build Optimization**: Use `const` constructors where possible
+4. **State Management**: Minimize `setState()` calls
+5. **Widget Reusability**: Extract reusable widgets
+
+### Performance Profiling
+
+```bash
+flutter run --profile
+# Then open DevTools
+flutter pub global run devtools
+```
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue: "Flutter not found"**
+```bash
+# Solution: Add Flutter to PATH
+export PATH="$PATH:[PATH_TO_FLUTTER]/bin"
+```
+
+**Issue: "Gradle build failed"**
+```bash
+# Solution: Clean and rebuild
+flutter clean
+flutter pub get
+flutter run
+```
+
+**Issue: "CocoaPods not installed"**
+```bash
+# Solution: Install CocoaPods
+sudo gem install cocoapods
+cd ios
+pod install
+```
+
+**Issue: "Hot reload not working"**
+```bash
+# Solution: Restart app
+# Press 'r' in terminal or
+flutter run --hot
+```
+
+---
+
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Acknowledgments
+
+- **Flutter Team**: For the amazing framework
+- **Material Design**: For design guidelines
+- **Community**: For packages and support
+
+---
+
+<div align="center">
+
+## Contact & Support
+
+For questions or issues:
+- Open an issue on GitHub
+- Check Flutter documentation: https://flutter.dev
+- Visit Flutter community: https://flutter.dev/community
+
+**Built for Mobile Development Course Project**
+
+Powered by Flutter Framework
+
+---
+
+**Cook with Confidence, Share with Love**
+
+</div>
